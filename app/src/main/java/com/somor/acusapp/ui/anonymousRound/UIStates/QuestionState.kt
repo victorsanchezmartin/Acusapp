@@ -103,7 +103,7 @@ fun QuestionState(
             onClick = {
                 if (accuseButtonEnabled) {
                     onAccuseButton()
-                    println("accused")
+                    println("accused Button")
                 }
             },
             text = { Text(text = "Acusar", fontSize = 16.sp) },
