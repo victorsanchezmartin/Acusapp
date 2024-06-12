@@ -94,6 +94,10 @@ fun QuestionState(
                                 fontSize = 20.sp,
                                 color = textColor
                             )
+                            println("develop tasks")
+                            println("develop tasks")
+                            println("develop tasks")
+                            println("develop tasks")
                         }
                     }
                 }
@@ -103,7 +107,6 @@ fun QuestionState(
             onClick = {
                 if (accuseButtonEnabled) {
                     onAccuseButton()
-                    println("accused Button")
                 }
             },
             text = { Text(text = "Acusar", fontSize = 16.sp) },
