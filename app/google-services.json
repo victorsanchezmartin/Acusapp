@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1037907552941",
+    "project_id": "acusapp",
+    "storage_bucket": "acusapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037907552941:android:9e4e94445a0dbbc0657424",
+        "android_client_info": {
+          "package_name": "com.somor.acusapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0Flghykh95sajWzYJyfMcxsRGyFifojo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

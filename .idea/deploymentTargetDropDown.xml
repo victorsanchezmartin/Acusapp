@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="deploymentTargetDropDown">
+    <value>
+      <entry key="EndState (mostAccusedList 0)">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="SERIAL_NUMBER" />
+                  <value value="c8f392d40602" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-06-11T15:38:14.637681Z" />
+        </State>
+      </entry>
+      <entry key="EndState (mostAccusedList)">
+        <State />
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
+    </value>
+  </component>
+</project>
