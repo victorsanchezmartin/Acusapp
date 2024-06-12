@@ -23,7 +23,6 @@ fun WaitingState(
     questionTitle: String,
     accusedList: MutableList<String>,
     owner: Boolean,
-    onNextQuestion: () -> Unit,
     anonymousRoundViewModel: AnonymousRoundViewModel
 
 ) {

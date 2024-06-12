@@ -60,7 +60,6 @@ fun AnonymousRoundScreen (
                     questionTitle,
                     accusedList,
                     owner!!,
-                    onNextQuestion = { anonymousRoundViewModel.onNextQuestion()},
                     anonymousRoundViewModel
                 )
             }
