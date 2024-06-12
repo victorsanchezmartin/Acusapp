@@ -39,8 +39,6 @@ fun WaitingState(
             anonymousRoundViewModel = anonymousRoundViewModel
         )
     } else {
-        Log.d("collect listaAbajo14","pasaba por aqui")
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
