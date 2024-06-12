@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -90,9 +89,7 @@ fun EndState(
     }else{
        getMostAccused() //una vez que ya tiene la lista, en este metodo se recompone el estado _mostAccused, y cuando vuelva
         //a esta pantalla ya entrará por el if
-        Button(onClick = { /*TODO*/ }, enabled = accuseButtonEnabled) {
-            
-        }
+
         LoadingState()
     }
 }
