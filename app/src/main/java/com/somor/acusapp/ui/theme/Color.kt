@@ -13,6 +13,6 @@ val Pink40 = Color(0xFF7D5260)
 
 val MyMaroon = Color(4285728813)
 val NewRound = Color(4286809274)
-val JoinRound = Color(4289242710)
+val JoinRound = Color(0xFF7C7A4D)
 val PublicRound = Color(4283271244)
 val Questions = Color(4288969547)

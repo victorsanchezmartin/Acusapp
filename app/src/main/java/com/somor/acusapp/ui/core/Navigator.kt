@@ -16,6 +16,7 @@ import com.somor.acusapp.ui.questions.QuestionScreen
 @Composable
 fun ContentWrapper(navigationController: NavHostController) {
     NavHost(navController = navigationController, startDestination = Routes.Home.route ){
+
         composable(Routes.Home.route){
             HomeScreen( navigateToQuestions = { navigationController.navigate(Routes.Questions.route)},
                         navigateToPublic = {navigationController.navigate(Routes.PublicRound.route)},
@@ -25,6 +26,7 @@ fun ContentWrapper(navigationController: NavHostController) {
 
                       )
         }
+
         composable(Routes.PublicRound.route){
             RoundScreen(){navigationController.navigate(Routes.Home.route)}
         }
