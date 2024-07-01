@@ -18,12 +18,17 @@ import com.somor.acusapp.ui.anonymousRound.UIStates.WaitingState
 
 @Composable
 fun AnonymousRoundScreen (
-    anonymousRoundViewModel: AnonymousRoundViewModel = hiltViewModel(),
+    //anonymousRoundViewModel: AnonymousRoundViewModel = hiltViewModel(),
     roundId: String?,
     playerId: String?,
     owner: Boolean?,
     navigateToHomeScreen: () -> Unit
 ) {
+
+    val anonymousRoundViewModel = hiltViewModel<AnonymousRoundViewModel, AnonymousRoundViewModel.Factory>(
+        creationCallback = { factory ->
+            factory.create(roundId = roundId!!, playerId = playerId!!, owner = owner!!) }
+    )
 
     //El orden de preguntas lo asigno al creador de la partida. En los argumentos del Navigator paso los datos simples, y no el 
     //objeto Player porque se considera un antipatrón pasar datos complejos como argumentos.
@@ -33,11 +38,13 @@ fun AnonymousRoundScreen (
     val accuseButtonEnabled by anonymousRoundViewModel.accuseButtonEnabled.collectAsState()
     val accusedList by anonymousRoundViewModel.accusedList.collectAsState()
     val questionTitle by anonymousRoundViewModel.questionTitle.collectAsState()
-    val mostAccusedList by anonymousRoundViewModel.mostAccudedList.collectAsState()
+    val mostAccusedList by anonymousRoundViewModel.mostAccusedList.collectAsState()
     val playerSelected by anonymousRoundViewModel.playerSelected
     //Primer paso en cada recomposicion y la primera vez que se genera el Screen es comprobar qué estado hay en RT
     Log.d("collect listaScreen", "Antes Estados: estado: $iuState")
-    anonymousRoundViewModel.getIUState(roundId!!, playerId!!, owner!!) //siempre flow
+
+
+    //anonymousRoundViewModel.getIUState(roundId!!, playerId!!, owner!!) //siempre flow
     Log.d("collect listaScreen", "Despues Estados: estado: $iuState")
 
         when (iuState) {
@@ -50,12 +57,12 @@ fun AnonymousRoundScreen (
                     playerList,
                     onPlayerSelected = { anonymousRoundViewModel.onPlayerSelected(it) },
                     accuseButtonEnabled = accuseButtonEnabled,
-                    onAccuseButton = { anonymousRoundViewModel.onAccuseButton2(playerId) },
+                    onAccuseButton = { anonymousRoundViewModel.onAccuseButton2(playerId!!) },
                     playerSelected)
             }
             AnonymousRoundUIState.Waiting -> {
                 Log.d("collect listaScreen", "pasandoWaiting")
-                WaitingState(  roundId,
+                WaitingState(  roundId!!,
                     playerId!!,
                     questionTitle,
                     accusedList,
@@ -66,7 +73,7 @@ fun AnonymousRoundScreen (
 
             AnonymousRoundUIState.Answer -> {
                 AnswerState(
-                    roundId,
+                    roundId!!,
                     playerId!!,
                     questionTitle,
                     accusedList,

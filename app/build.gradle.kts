@@ -80,9 +80,27 @@ dependencies {
     implementation("com.google.firebase:firebase-common-ktx:20.4.2")
 
     //hilt
-    implementation("com.google.dagger:hilt-android:2.46")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.46")
+//    implementation("com.google.dagger:hilt-android:2.49")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+//    kapt("com.google.dagger:hilt-android-compiler:2.49")
+
+    val daggerVersion = "2.50"
+    val hiltVersion = "1.2.0"
+
+    implementation("com.google.dagger:hilt-android:$daggerVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
+    implementation("androidx.hilt:hilt-work:$hiltVersion")
+    kapt("androidx.hilt:hilt-compiler:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:$hiltVersion")
+
+    //Esta dependicia la he puesto porque me daba un error al abrir la app:
+    /*
+    Targeting S+ (version 31 and above) requires that one of FLAG_IMMUTABLE or
+    FLAG_MUTABLE be specified when creating a PendingIntent. Strongly consider using FLAG_IMMUTABLE
+    Buscando en google salia que faltaba esa dependencia y lo he solucionado
+     */
+    val work_version = "2.9.0"
+    implementation("androidx.work:work-runtime-ktx:$work_version")
 
     //livedata
     implementation("androidx.compose.runtime:runtime:1.6.3")

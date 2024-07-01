@@ -12,6 +12,9 @@ import com.somor.acusapp.data.network.FirebaseService
 import com.somor.acusapp.domain.PlayerModel
 import com.somor.acusapp.domain.QuestionModel
 import com.somor.acusapp.ui.anonymousRound.UIStates.AnonymousRoundUIState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -19,12 +22,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-@HiltViewModel
-class AnonymousRoundViewModel @Inject constructor (private val firebaseService : FirebaseService) : ViewModel (),
+@HiltViewModel(assistedFactory = AnonymousRoundViewModel.Factory::class)
+class AnonymousRoundViewModel @AssistedInject constructor (
+    @Assisted ("roundId") val roundId: String,
+    @Assisted ("playerId")val playerId : String ,
+    @Assisted ("owner")val owner: Boolean ,
+
+    private val firebaseService : FirebaseService) : ViewModel (),
     DefaultLifecycleObserver {
+    @AssistedFactory interface Factory {
+        fun create( @Assisted ("roundId")  roundId: String,
+                    @Assisted ("playerId") playerId : String ,
+                    @Assisted ("owner") owner: Boolean) : AnonymousRoundViewModel
+        }
 
     companion object {
         private const val LOADING = "Loading"
@@ -37,7 +49,7 @@ class AnonymousRoundViewModel @Inject constructor (private val firebaseService :
     val accusedList: StateFlow<MutableList<String>> = _accusedList
 
      private val _mostAccusedList = MutableStateFlow(emptyList<String>().toMutableList())
-    val mostAccudedList : StateFlow<MutableList<String>> = _mostAccusedList
+    val mostAccusedList : StateFlow<MutableList<String>> = _mostAccusedList
 
     private val _mostAccusedPlayer = MutableStateFlow("")
     val mostAccusedPlayer : StateFlow<String> = _mostAccusedPlayer
@@ -78,15 +90,17 @@ class AnonymousRoundViewModel @Inject constructor (private val firebaseService :
      private val _questionTitle = MutableStateFlow("")
     val questionTitle :StateFlow<String> = _questionTitle
 
-    lateinit var _playerId : String
+    var _playerId : String
 
     private var _owner : Boolean = false
 
-    fun getIUState(roundId: String, playerId: String, owner: Boolean) {
+   init {
         Log.d("collect listaScreen", "getIUStateAntes")
-         _playerId = playerId
+        _playerId = playerId
         _roundId = roundId
         _owner = owner
+       Log.d("datos jugador", "jugador: $_playerId; ronda:  $_roundId; propietario: $_owner")
+
         viewModelScope.launch {
             firebaseService.getIUState(roundId, playerId).collect {
                 when (it?.playerIUState) {   //Segun cambie de estado en RT actualizo el estado de la Screen
@@ -106,8 +120,8 @@ class AnonymousRoundViewModel @Inject constructor (private val firebaseService :
                     ANSWER -> {
                         _iuState.value = AnonymousRoundUIState.Answer
                     }END -> {
-                        _iuState.value = AnonymousRoundUIState.End
-                    }
+                    _iuState.value = AnonymousRoundUIState.End
+                }
                 }
             }
             Log.d("collect listaScreen", "getIUStateDEspues")
