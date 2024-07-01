@@ -43,10 +43,7 @@ import com.somor.acusapp.ui.theme.PublicRound
 import com.somor.acusapp.ui.theme.wenKaiFontFamily
 
 @Composable
-fun  QuestionScreen (
-    questionViewModel: QuestionsViewModel = hiltViewModel(),
-
-) {
+fun  QuestionScreen (questionViewModel: QuestionsViewModel = hiltViewModel()) {
 
     val showDialog by  questionViewModel.showDialog.observeAsState(initial = false)
     val isAddQuestion by  questionViewModel.isAddQuestion.observeAsState(initial = false)

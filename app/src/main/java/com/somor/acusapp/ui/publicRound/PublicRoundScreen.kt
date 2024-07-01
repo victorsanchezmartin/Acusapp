@@ -56,8 +56,8 @@ fun RoundScreen(roundViewModel: PublicRoundViewModel = hiltViewModel(),
     val showDialog = roundViewModel.showDialog.value
     val onBackEffect by roundViewModel.onBackEffect
 
-        if (isListLoaded == true) { //Para quitar == mirar TicTacToe
-            if (runningOrder != list.size) {
+            if (isListLoaded == true) { //Para quitar == mirar TicTacToe
+                if (runningOrder != list.size) {
                 Box(contentAlignment = Alignment.Center
                         ) {
                         AnimatedContent(

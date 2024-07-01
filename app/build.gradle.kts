@@ -5,6 +5,12 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
+
+    id("androidx.navigation.safeargs.kotlin")
+
+    id("kotlinx-serialization")
+
+
 }
 
 android {
@@ -65,8 +71,16 @@ android {
 }
 
 dependencies {
+    val nav_version = "2.8.0-alpha08"
 
-    implementation ("androidx.navigation:navigation-compose:2.7.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    implementation("androidx.navigation:navigation-compose:2.8.0-beta04")
+
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
 
     //Material 3
     implementation("androidx.compose.material3:material3:1.2.1")
@@ -74,15 +88,11 @@ dependencies {
     implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.0.0-alpha05")
 
 
+
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:31.4.0"))
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-common-ktx:20.4.2")
-
-    //hilt
-//    implementation("com.google.dagger:hilt-android:2.49")
-//    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-//    kapt("com.google.dagger:hilt-android-compiler:2.49")
 
     val daggerVersion = "2.50"
     val hiltVersion = "1.2.0"

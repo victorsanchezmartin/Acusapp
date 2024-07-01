@@ -2,10 +2,9 @@ package com.somor.acusapp.ui.core
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.somor.acusapp.ui.anonymousRound.AnonymousRoundScreen
 import com.somor.acusapp.ui.createRound.CreateRoundScreen
 import com.somor.acusapp.ui.home.HomeScreen
@@ -15,73 +14,50 @@ import com.somor.acusapp.ui.questions.QuestionScreen
 
 @Composable
 fun ContentWrapper(navigationController: NavHostController) {
-    NavHost(navController = navigationController, startDestination = Routes.Home.route ){
-
-        composable(Routes.Home.route){
-            HomeScreen( navigateToQuestions = { navigationController.navigate(Routes.Questions.route)},
-                        navigateToPublic = {navigationController.navigate(Routes.PublicRound.route)},
+    NavHost(navController = navigationController, startDestination = Home){
+        composable<Home>{
+            HomeScreen(
+                        navigateToPublic = {
+                            navigationController.navigate(PublicRoundScreen)},
                         navigateToCreateRound = {roundId, date ->
-                            navigationController.navigate(Routes.CreateRound.createRoute(roundId, date))},
-                        navigateToJoinRound = {navigationController.navigate(Routes.JoinRound.route)}
-
+                            navigationController.navigate(CreateRoundScreen(roundId, date))},
+                        navigateToJoinRound = {navigationController.navigate(JoinRoundScreen)},
+                      navigateToQuestions = { navigationController.navigate(QuestionScreen)}
                       )
         }
 
-        composable(Routes.PublicRound.route){
-            RoundScreen(){navigationController.navigate(Routes.Home.route)}
+        composable<PublicRoundScreen>{
+            RoundScreen{navigationController.navigate(Home)}
         }
-        composable(Routes.Questions.route){
+        composable<QuestionScreen>{
             QuestionScreen()
         }
-        composable(Routes.JoinRound.route){
 
+        composable<JoinRoundScreen>{
             JoinRoundScreen(
-                navigateToAnonymousRound = {roundId, playerId, owner ->
-                navigationController.navigate(Routes.AnonymousRound.createRoute(roundId, playerId, owner))})
+                navigateToAnonymousRound = { roundId, playerId, owner ->
+                navigationController.navigate(AnonymousRound(
+                    roundId,
+                    playerId,
+                    owner))})
             }
 
-        composable(Routes.CreateRound.route,
-            arguments = listOf(
-                navArgument ("roundId" ){type = NavType.StringType},
-                navArgument ("date" ){type = NavType.StringType}
-
-            )){
-           CreateRoundScreen(roundId = it.arguments?.getString("roundId").orEmpty(),
-               date = it.arguments?.getString("date").orEmpty(),
+        composable<CreateRoundScreen>{
+            val createRoundScreen = it.toRoute<CreateRoundScreen>()
+           CreateRoundScreen(
+               roundId = createRoundScreen.roundId,
+               date = createRoundScreen.date,
                navigateToAnonymousRound = {roundId, playerId, owner ->
-                   navigationController.navigate(Routes.AnonymousRound.createRoute(roundId, playerId, owner))})
+                   navigationController.navigate(AnonymousRound(roundId, playerId, owner))})
 
         }
 
-        composable(Routes.AnonymousRound.route,
-            arguments = listOf(
-                navArgument("roundId"){type = NavType.StringType},
-                navArgument("playerId"){type = NavType.StringType},
-                navArgument("owner"){type = NavType.BoolType}
-            )){
-            AnonymousRoundScreen(roundId = it.arguments?.getString("roundId").orEmpty(),
-                            playerId = it.arguments?.getString("playerId").orEmpty(),
-                                owner = it.arguments?.getBoolean("owner")?.or(false))
-            { navigationController.navigate(Routes.Home.route) }
+        composable<AnonymousRound>{
+            val anonymous = it.toRoute<AnonymousRound>()
+            AnonymousRoundScreen(roundId = anonymous.roundId,
+                            playerId = anonymous.playerId,
+                                owner = anonymous.owner)
+            { navigationController.navigate(Home) }
         }
     }
-}
-/**
-* Creo una sealed class a modo de constantes. Aquí escribo las rutas y en la clase Navigator hago referencia a estas
- */
-sealed class Routes(val route : String) {
-    data object Home: Routes("home")
-    data object CreateRound: Routes("createRound/{roundId}/{date}") {
-        fun createRoute(roundId : String, date : String):String{
-            return "createRound/$roundId/$date"
-        }
-    }
-    data object AnonymousRound: Routes("anonymous/{roundId}/{playerId}/{owner}"){
-        fun createRoute(roundId : String, playerId: String, owner : Boolean) :String{
-            return "anonymous/$roundId/$playerId/$owner"
-        }
-    }
-    data object PublicRound: Routes("publicRound")
-    data object JoinRound: Routes("join")
-    data object Questions: Routes("questions")
 }
